@@ -1,0 +1,49 @@
+﻿@model List<TaskModel>
+@{
+    ViewBag.Title = "All Tasks";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mb-4">All Tasks</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">No tasks found. Add a new task to get started!</div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var task in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm border-@(task.IsCompleted ? "success" : "primary")">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">@task.TaskTitle</h5>
+                        <p class="card-text text-muted">@task.TaskDescription</p>
+                        <p class="mb-1"><strong>Assigned:</strong> @task.TaskAssignDate.ToShortDateString()</p>
+                        <p class="mb-3">
+                            <strong>Categories:</strong>
+                            @foreach (var category in task.Categories!)
+                            {
+                                <span class="badge bg-secondary me-1">@category.CategoryName</span>
+                            }
+                        </p>
+
+                        @if (task.IsCompleted)
+                        {
+                            <span class="badge bg-success px-3 py-2">✔ Completed</span>
+                        }
+                        else
+                        {
+                            <div class="d-flex justify-content-start gap-2">
+                                <a href="@Url.Action("Edit", "Task", new { id = task.Id })" class="btn btn-sm btn-outline-primary">Edit</a>
+                                <a href="@Url.Action("Delete", "Task", new { id = task.Id })" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this task?')">Delete</a>
+                                <a href="@Url.Action("Complete", "Task", new { id = task.Id })" class="btn btn-sm btn-outline-success">Complete</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
