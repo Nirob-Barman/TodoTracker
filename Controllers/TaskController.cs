@@ -107,7 +107,21 @@ namespace TodoTracker.Controllers
             return View(vm);
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult DeleteConfirmation(int id)
+        {
+            var task = _context.Tasks
+                .Include(t => t.Categories)
+                .FirstOrDefault(t => t.Id == id);
+
+            if (task == null || task.IsCompleted)
+                return NotFound();
+
+            return View(task);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
         {
             var task = _context.Tasks.Find(id);
             if (task == null || task.IsCompleted)
@@ -117,6 +131,7 @@ namespace TodoTracker.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
 
         public ActionResult Complete(int id)
         {
