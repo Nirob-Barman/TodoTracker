@@ -68,6 +68,32 @@
    https://localhost:5001
 	```
 
+## 🔐 Configuration
+Before running the project, make sure to set up your own `appsettings.json` file with the correct database connection string. For security, sensitive information like usernames and passwords should not be committed to version control.
+
+A `sample.appsettings.json` file is included for reference. Create your actual `appsettings.json` in the project root like this:
+
+<details>
+<summary>Click to view sample.appsettings.json</summary>
+
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=YOUR_SERVER_NAME;Database=YOUR_DATABASE_NAME;Trusted_Connection=True;User Id=YOUR_USERNAME;Password=YOUR_PASSWORD;TrustServerCertificate=True;"
+  },
+  "AllowedHosts": "*"
+}
+```
+
+</details>
+📝 Replace YOUR_SERVER_NAME, YOUR_DATABASE_NAME, YOUR_USERNAME, and YOUR_PASSWORD with your actual SQL Server values.
+
 
 ## 🗃 Project Structure
 	```
