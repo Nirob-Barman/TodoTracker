@@ -4,43 +4,56 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Add Task</h2>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">📝 Add New Task</h4>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    <div class="mb-3">
-        @Html.LabelFor(m => m.TaskTitle)
-        @Html.TextBoxFor(m => m.TaskTitle, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.TaskTitle)
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.TaskTitle, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.TaskTitle, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.TaskTitle, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.TaskDescription, new { @class = "form-label" })
+                    @Html.TextAreaFor(m => m.TaskDescription, new { @class = "form-control", rows = 3 })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.TaskAssignDate, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.TaskAssignDate, new { @class = "form-control", type = "date" })
+                    @Html.ValidationMessageFor(m => m.TaskAssignDate, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3 form-check">
+                    @Html.CheckBoxFor(m => m.IsCompleted, new { @class = "form-check-input", id = "isCompleted" })
+                    @Html.LabelFor(m => m.IsCompleted, new { @class = "form-check-label" })
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Select Categories</label>
+                    <div class="row">
+                        @foreach (var category in Model.AvailableCategories!)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="SelectedCategoryIds" value="@category.Id" id="cat_@category.Id" />
+                                    <label class="form-check-label" for="cat_@category.Id">@category.CategoryName</label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success">💾 Save Task</button>
+                <a asp-action="Index" class="btn btn-outline-secondary ms-2">Cancel</a>
+            }
+        </div>
     </div>
-
-    <div class="mb-3">
-        @Html.LabelFor(m => m.TaskDescription)
-        @Html.TextAreaFor(m => m.TaskDescription, new { @class = "form-control", rows = 3 })
-    </div>
-
-    <div class="mb-3">
-        @Html.LabelFor(m => m.TaskAssignDate)
-        @Html.TextBoxFor(m => m.TaskAssignDate, new { @class = "form-control", type = "date" })
-        @Html.ValidationMessageFor(m => m.TaskAssignDate)
-    </div>
-
-    <div class="mb-3">
-        @Html.LabelFor(m => m.IsCompleted)
-        @Html.CheckBoxFor(m => m.IsCompleted)
-    </div>
-
-    <div class="mb-3">
-        <label>Categories</label>
-        @foreach (var category in Model.AvailableCategories!)
-        {
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="SelectedCategoryIds" value="@category.Id" />
-                <label class="form-check-label">@category.CategoryName</label>
-            </div>
-        }
-    </div>
-
-    <button type="submit" class="btn btn-success">Save Task</button>
-}
+</div>

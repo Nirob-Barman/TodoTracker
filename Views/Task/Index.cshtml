@@ -1,10 +1,10 @@
-﻿@model List<TaskModel>
+﻿@model List<TodoTracker.Models.TaskModel>
 @{
     ViewBag.Title = "All Tasks";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="mb-4">All Tasks</h2>
+<h2 class="mb-4">📋 All Tasks</h2>
 
 @if (Model == null || !Model.Any())
 {
@@ -12,20 +12,30 @@
 }
 else
 {
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         @foreach (var task in Model)
         {
             <div class="col">
-                <div class="card h-100 shadow-sm border-@(task.IsCompleted ? "success" : "primary")">
+                <div class="card h-100 border-@(task.IsCompleted ? "success" : "primary") shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title text-primary">@task.TaskTitle</h5>
-                        <p class="card-text text-muted">@task.TaskDescription</p>
-                        <p class="mb-1"><strong>Assigned:</strong> @task.TaskAssignDate.ToShortDateString()</p>
-                        <p class="mb-3">
+                        <h5 class="card-title text-@(task.IsCompleted ? "success" : "primary")">
+                            @task.TaskTitle
+                        </h5>
+                        <p class="card-text">@task.TaskDescription</p>
+                        <p class="text-muted"><strong>Assigned On:</strong> @task.TaskAssignDate.ToString("dd MMM yyyy")</p>
+
+                        <p>
                             <strong>Categories:</strong>
-                            @foreach (var category in task.Categories!)
+                            @if (task.Categories?.Any() == true)
                             {
-                                <span class="badge bg-secondary me-1">@category.CategoryName</span>
+                                @foreach (var category in task.Categories)
+                                {
+                                    <span class="badge bg-secondary me-1">@category.CategoryName</span>
+                                }
+                            }
+                            else
+                            {
+                                <span class="text-muted">No categories</span>
                             }
                         </p>
 
@@ -35,10 +45,10 @@ else
                         }
                         else
                         {
-                            <div class="d-flex justify-content-start gap-2">
-                                <a href="@Url.Action("Edit", "Task", new { id = task.Id })" class="btn btn-sm btn-outline-primary">Edit</a>
-                                <a href="@Url.Action("DeleteConfirmation", "Task", new { id = task.Id })" class="btn btn-sm btn-outline-danger">Delete</a>
-                                <a href="@Url.Action("Complete", "Task", new { id = task.Id })" class="btn btn-sm btn-outline-success">Complete</a>
+                            <div class="d-flex gap-2 mt-3">
+                                <a asp-action="Edit" asp-route-id="@task.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                                <a asp-action="DeleteConfirmation" asp-route-id="@task.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                                <a asp-action="Complete" asp-route-id="@task.Id" class="btn btn-sm btn-outline-success">Complete</a>
                             </div>
                         }
                     </div>
