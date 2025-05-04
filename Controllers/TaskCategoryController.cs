@@ -99,7 +99,7 @@ namespace TodoTracker.Controllers
             return RedirectToAction("Index");
         }
 
-        // Optional: Details view
+        // Details view
         public IActionResult Details(int id)
         {
             var category = _context.Categories.Include(c => c.Tasks).FirstOrDefault(c => c.Id == id);

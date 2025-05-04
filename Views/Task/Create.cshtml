@@ -23,6 +23,7 @@
     <div class="mb-3">
         @Html.LabelFor(m => m.TaskAssignDate)
         @Html.TextBoxFor(m => m.TaskAssignDate, new { @class = "form-control", type = "date" })
+        @Html.ValidationMessageFor(m => m.TaskAssignDate)
     </div>
 
     <div class="mb-3">

@@ -4,16 +4,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Add Category</h2>
+<div class="container mt-4">
+    <h2 class="mb-4 text-primary">➕ Add New Task Category</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    <div class="mb-3">
-        @Html.LabelFor(m => m.CategoryName)
-        @Html.TextBoxFor(m => m.CategoryName, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.CategoryName)
-    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="card shadow-sm p-4">
+            <div class="mb-3">
+                @Html.LabelFor(m => m.CategoryName, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.CategoryName, new { @class = "form-control", placeholder = "Enter category name" })
+                @Html.ValidationMessageFor(m => m.CategoryName, "", new { @class = "text-danger" })
+            </div>
 
-    <button type="submit" class="btn btn-primary">Add Category</button>
-}
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">✅ Add Category</button>
+                <a asp-action="Index" class="btn btn-secondary">🔙 Back to List</a>
+            </div>
+        </div>
+    }
+</div>

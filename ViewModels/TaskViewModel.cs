@@ -17,6 +17,7 @@ namespace TodoTracker.ViewModels
         [Display(Name = "Completed")]
         public bool IsCompleted { get; set; }
 
+        [Required]
         [Display(Name = "Assign Date")]
         public DateTime TaskAssignDate { get; set; } = DateTime.Now;
 
